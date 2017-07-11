@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+/** 
+*	弹框窗口的样式，适用于所有自定义的弹框
+*/
+ 
+.mesWindow{border:#666 1px solid;background:#fff;}
+.mesWindowTop{border-bottom:#eee 1px solid;margin-left:4px;padding:3px;font-weight:bold;text-align:left;}
+.mesWindowContent{margin:4px;}
+.mesWindow .close{border:none;cursor:pointer;text-decoration:underline;background:#fff}

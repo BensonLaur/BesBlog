@@ -1,0 +1,230 @@
+@CHARSET "UTF-8";
+
+/**
+*	通用的css模板，适用于 没有左边子菜单的 主要页面
+*/
+
+.top_Blog_name{
+	padding:20px;
+	float:left;
+	font-size:40px;
+    font-style:italic;
+    font-family:Times;
+    text-shadow: 2.3px 2.3px 1px #99CC33;
+    
+}
+.top_button_div{
+	position:absolute;
+	left:180px;
+	padding-left:10px;
+	padding-top:20px;
+	padding-bottom:2px;
+}
+
+
+.footer{font-size: 0.5em;text-align: center;width:400px;
+position:absolute;left:50%;margin-top:14.5cm;margin-left:-200px;}
+
+#up_button{background:url('/resume/photo/systemPhoto/up_normal.png') no-repeat;height:80px;width:45px;display:none;}
+#up_button:hover {background:url('/resume/photo/systemPhoto/up_focus.png') no-repeat;height:80px;width:45px;}
+#up_button:active {background:url('/resume/photo/systemPhoto/up_press.png') no-repeat;height:80px;width:45px;}
+
+/*通用样式*/
+.float_right{float:right;}
+.float_left{float:left;}
+.clear{both:clear;}
+
+/* .normal_link{display:block;text-decoration:none;line-height:23px;padding:2px 5px;margin:2px;border:1px;border-radius:4px;}
+.normal_link:link {color:white; background-color:#343434;}
+.normal_link:visited {color:white;background-color:#343434;}
+.normal_link:hover {color:white;background-color:#99CC33;}
+.normal_link:active {background-color:#66aa00;}
+ */
+
+/* 通用 */
+.green_link{
+	color:#558800;
+	cursor:pointer;
+}
+.green_link:HOVER {
+   text-shadow: 2px 2px 3px #99CC33;
+	cursor:pointer;
+}
+
+.green_shadow{
+   text-shadow: 2px 2px 3px #99CC33;
+	cursor:default;
+}
+
+.red_shadow
+{
+   text-shadow: 1px 1px 1px #ff3333;
+	cursor:default;
+}
+
+.article_block
+{
+    background-color: #F6F6F6;
+    border: 1px solid #E5E5E5;
+    padding: 10px;
+    margin:2px;
+}
+
+.info_block
+{
+    background-color: #F6F6F6;
+    border: 1px solid #E5E5E5;
+    padding: 10px;
+    margin:2px;
+}
+
+.greenTip, .greenTip h4 {
+    color: #00aa00;
+}
+
+.greenTip {
+	padding: 8px 35px 8px 14px;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #bbffbb;
+    border: 1px solid #00ff00;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.greenTip .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    line-height: 20px;
+}
+/*
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: .4;
+    filter: alpha(opacity = 40);
+}
+
+ button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
+}
+ */
+.clear {
+    clear: both;
+}
+
+.template {
+    display: none;
+}
+
+table {
+    width: 100%
+}
+
+.margin_bottom5 {
+    margin-bottom: 5px;
+}
+.margin_bottom10 {
+    margin-bottom: 10px;
+}
+.margin_bottom20 {
+    margin-bottom: 20px;
+}
+
+.margin_top5 {
+    margin-top: 5px;
+}
+
+.margin_top10 {
+    margin-top: 10px;
+}
+
+.margin_top20 {
+    margin-top: 20px;
+}
+
+
+.margin_left10 {
+    margin-left: 10px;
+}
+
+.margin_right10 {
+    margin-right: 10px;
+}
+
+
+.margin_left20 {
+    margin-left: 20px;
+}
+
+.margin_top15 {
+    margin-top: 15px;
+}
+
+.margin5
+{
+	margin:5px;
+}
+.margin10
+{
+	margin:10px;
+}
+.margin20
+{
+	margin:20px;
+}
+
+.float_left {
+    clear: left;
+    float: left;
+    white-space: nowrap;
+}
+
+.float_right {
+    clear: right;
+    float: right;
+    white-space: nowrap;
+}
+
+.text_align_right {
+    text-align: right;
+}
+
+.margin_right_5 {
+    margin-right: 5px;
+}
+
+.margin_left_5 {
+    margin-left: 5px;
+}
+
+.padding_right_5 {
+    padding-right: 5px;
+}
+
+.padding10
+{
+	padding:10px;
+}
+
+.heigth_line_height_24 {
+    height: 24px;
+    line-height: 24px;
+}

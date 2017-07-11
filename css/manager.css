@@ -1,0 +1,138 @@
+@CHARSET "UTF-8";
+
+body{margin:0;padding:0}
+
+
+
+/* 左边菜单 部分的布局 */
+
+.left_guid
+{
+float:left;
+width:199px;
+height:40%;
+border-right:1px solid #eee;
+}
+
+.left_dl
+{margin:10px;}
+
+.child_item
+{
+   color:green;
+   padding:5px 5px;
+   text-align:center;
+   background-color: #fafafa;
+   cursor: pointer;
+}
+.child_item:HOVER
+{
+   padding:5px 5px;
+   text-align:center;
+   background-color: #f2f2f2;
+   cursor: pointer;
+}
+
+.selected_item
+{
+   color:green;
+   font-size:larger;
+   text-shadow: 3px 3px 3px #99CC33;
+   cursor: pointer;
+}
+
+
+/* content 部分的布局 */
+.content_tab
+{
+position: absolute;
+left:200px;
+right:2px;
+
+min-width:600px;
+
+border-left:1px solid #ccc;
+display:none;
+padding: 5px;
+}
+
+.content_tab:target
+{
+/*显示Tab的内容*/
+display:block;
+}
+
+.content_div
+{
+padding:8px;
+}
+.content_top_div
+{
+height:20px;
+}
+
+
+/* 按钮连接 */
+.post a {
+    color: #fff;
+    background-color: #99CC33;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    min-height: 30px;
+    margin-left: 0px;
+}
+
+/* 表格中的部分样式 */
+
+
+.show_only_hover{
+	opacity:0.2;
+}
+
+.show_only_hover:HOVER {
+	opacity:1;
+}
+
+.show_only_hover>a{
+	margin:0 10px;
+}
+
+.paging_full_numbers .ui-button
+{
+	padding:3px 5px;
+}
+.paging_full_numbers .ui-button:HOVER
+{
+   background-color: #e2e2e2;
+}
+.paging_full_numbers .ui-state-default
+{
+	cursor: pointer;
+   	text-shadow: 2px 2px 1px #99CC33;
+}
+.paging_full_numbers .ui-state-disabled
+{
+	cursor:default;
+   	text-shadow: 0px 0px 0px #99CC33;
+   	color:#aaaaaa;
+}
+
+
+/* 订阅列表名称 */
+.subscription_names_scrollable {
+	height: 500px;
+	overflow-y: auto;
+}
+
+#list_subscription_name
+{
+	width:100%;
+	text-align:center;
+}
+
+#list_body_subscription_article
+{
+	height: 500px;
+	overflow-y: auto;
+}
