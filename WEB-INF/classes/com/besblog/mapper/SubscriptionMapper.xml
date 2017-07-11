@@ -1,0 +1,75 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.besblog.mapper.SubscriptionMapper">
+
+<!-- 订阅记录表操作 -->
+<insert id="insertSubscription" parameterType="Map">
+   INSERT INTO t_subscription(subscriberid,objectid)  
+   		VALUES (#{uid},#{objectUid})
+</insert>
+
+<delete id="deleteSubscription" parameterType="Map">
+	delete from t_subscription
+		where subscriberid = #{uid} and  objectid = #{objectUid}
+</delete>
+
+<!-- 测试订阅对象是否存在 -->
+<select id="testSubscription" parameterType="Map" resultType="int">
+   select count(objectid)
+   	from t_subscription
+   		where subscriberid=#{uid} and objectid=#{objectUid}
+</select>
+
+
+<!-- 由 用户昵称 查询 用户uid， 在AccountMapper已经实现 -->
+
+<!-- 由用户id查询所有 目标订阅  -->
+<select id="getObjectUserByUid"  parameterType="String" resultType="com.besblog.pojo.User">
+  select t_user.*  
+  	from t_subscription , t_user
+  		where t_user.uid = t_subscription.objectid and  subscriberid = #{uid}
+  			order by t_subscription.subtime asc
+</select> 
+
+
+<!-- 由 订阅对象的 uid 查询显示订阅的文章 -->
+<select id="getArticleByObjectUid"  parameterType="String" resultMap="ArticleSubscribed">
+select t_article.* ,t_user.uid as uid2, t_user.nickname, t_user.email
+	from t_article, t_user
+		where t_article.`status`='1' and  t_article.uid  = t_user.uid  and t_user.uid = #{objectUid}
+			order by t_article.edittime DESC
+</select> 
+
+
+<!-- 由 订阅者uid 查询所有被订阅的对象的所有文章 -->
+<select id="getArticleBySubscriberUid"  parameterType="String" resultMap="ArticleSubscribed" >
+ select t_article.* ,t_user.uid as uid2, t_user.nickname, t_user.email
+	from t_article, t_user
+		where t_article.`status`='1' and  t_article.uid  = t_user.uid  
+		and t_user.uid in (select objectid from t_subscription where t_subscription.subscriberid = #{subscriberUid})
+				order by t_article.edittime DESC
+ 
+</select> 
+
+
+   <resultMap type="com.besblog.pojo.ArticleSubscribed" id="ArticleSubscribed">
+      <id column="aid" property="aid"/>
+      <result column="uid" property="uid"/>
+      <result column="title" property="title"/>
+      <result column="content" property="content"/>
+      <result column="planTxt" property="planTxt"/>
+      <result column="establishtime" property="establishtime"/>
+      <result column="edittime" property="edittime"/>
+      <result column="cread" property="cread"/>
+      <result column="ccomment" property="ccomment"/>
+      <result column="crecomendation" property="crecomendation"/>
+      <result column="status" property="status"/>
+      <association property="user" javaType="com.besblog.pojo.User">
+        <id column="uid2" property="uid"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+      </association>
+     
+   </resultMap>
+
+</mapper>

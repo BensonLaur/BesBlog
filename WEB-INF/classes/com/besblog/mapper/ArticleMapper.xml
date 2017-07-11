@@ -1,0 +1,134 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.besblog.mapper.ArticleMapper">
+
+<!-- 文章直接操作 -->
+<insert id="insertArticle" parameterType="com.besblog.pojo.Article">
+   INSERT INTO t_article (aid,uid,title,content,status,planTxt)
+   			 VALUES (#{aid},#{uid},#{title},#{content}, #{status},#{planTxt})
+</insert>
+
+<update id="updateArticleContent" parameterType="com.besblog.pojo.Article">
+     update t_article
+          set title = #{title},content = #{content},planTxt= #{planTxt}
+            where aid = #{aid}
+</update>
+
+<delete id="deleteArticle" parameterType="String">
+	delete from t_article
+            where aid = #{aid}
+</delete>
+
+<select id="getUidByAid" parameterType="String" resultType="String">
+	select uid from t_article 
+		where aid = #{aid}
+</select>
+
+<select id="selectArticlesByAid"  parameterType="String" resultType="com.besblog.pojo.Article">
+  select * from t_article where  aid = #{value} 
+</select> 
+
+<!-- 博客管理页面下的文章 -->
+<select id="selectAllArticlesByUid"  parameterType="String" resultType="com.besblog.pojo.Article">
+  select * from t_article where  uid = #{value}
+  		order by t_article.establishtime desc
+</select> 
+
+<select id="selectPublishedArticlesByUid"  parameterType="String" resultType="com.besblog.pojo.Article">
+  select * from t_article where  uid = #{value} and status='1'
+  		order by t_article.establishtime desc
+</select> 
+
+<select id="selectDraftArticlesByUid"  parameterType="String" resultType="com.besblog.pojo.Article">
+  select * from t_article where  uid = #{value} and status='2'
+  		order by t_article.establishtime desc
+</select> 
+
+<!-- 获得3种文章篇数 -->
+<select id="getCountAllArticlesByUid"  parameterType="String" resultType="int">
+  select count(aid) from t_article where  uid = #{value}
+</select> 
+
+<select id="getCountPublishedArticlesByUid"  parameterType="String" resultType="int">
+  select count(aid) from t_article where  uid = #{value} and status='1'
+</select> 
+
+<select id="getCountDraftArticlesByUid"  parameterType="String" resultType="int">
+  select count(aid) from t_article where  uid = #{value} and status='2'
+</select> 
+
+
+<select id="getCountByAid"  parameterType="String" resultType="int">
+  select count(aid) from t_article where  aid = #{value} 
+</select> 
+
+
+<!-- 自动更新文章的评论数 -->
+<update id="autoUpdateArticleCommentCount" parameterType="String">
+     update t_article as a
+          set a.ccomment = (select count(cid) from comment where aid=#{aid})
+            where a.aid = #{aid}
+</update>
+
+
+
+<!-- 展示文章页面获取文章的数据 -->
+<select id="selectPublishedArticlesByAid"  parameterType="String" resultType="com.besblog.pojo.ArticleToShow">
+  select * from t_article where  aid = #{value} and status='1'
+</select> 
+
+<!-- 文章状态 -->
+<update id="updateArticleStatus" parameterType="Map">
+     update t_article
+          set status = #{status}
+            where aid = #{aid}
+</update>
+<select id="getArticleStatusByAid"  parameterType="String" resultType="String">
+  select status  from t_article where  aid = #{aid}
+</select> 
+
+
+
+<!-- 最后编辑时间 -->
+<update id="updateArticleEdittime" parameterType="Map">
+     update t_article
+          set edittime =  #{edittime,jdbcType=TIMESTAMP}
+            where aid = #{aid}
+</update>
+
+<!-- 阅读数 -->
+<select id="getReadCountByAid"  parameterType="String" resultType="int">
+  select cread  from t_article where  aid = #{aid}
+</select> 
+
+<update id="updateArticleReadCount" parameterType="Map">
+     update t_article
+          set cread = ${readCount}
+            where aid = #{aid}
+</update>
+
+<!-- 推荐数 -->
+<select id="getRecomendationCountByAid"  parameterType="String" resultType="int">
+  select crecomendation  from t_article where  aid = #{aid}
+</select> 
+
+<update id="updateArticleRecomendation" parameterType="Map">
+     update t_article
+          set crecomendation = ${recomendationCount}
+            where aid = #{aid}
+</update>
+
+<!-- 评论数 -->
+<select id="getCommentCountByAid"  parameterType="String" resultType="int">
+  select ccomment  from t_article where  aid = #{aid}
+</select> 
+
+<update id="updateArticleCommentCount" parameterType="Map">
+     update t_article
+          set ccomment = ${commentCount}
+            where aid = #{aid}
+</update>
+
+
+
+</mapper>

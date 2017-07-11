@@ -1,0 +1,39 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.besblog.mapper.BeslyricMapper">
+
+
+<!-- 下载 -->
+<insert id="insertDownload" parameterType="com.besblog.pojo.Download">
+   INSERT INTO download (id,time)
+   	VALUES (#{id},#{time,jdbcType=TIMESTAMP})
+</insert>
+
+<select id="selectAllDownloadCount"   resultType="int">
+  select count(id) from download
+</select> 
+
+<select id="selectAllDownload"  resultType="com.besblog.pojo.Download">
+  select * from download 
+</select> 
+
+
+<!-- 登录 -->
+<insert id="insertLogin" parameterType="com.besblog.pojo.Login">
+   INSERT INTO login (id,ip,time)
+   	VALUES (#{id},#{ip},#{time,jdbcType=TIMESTAMP})
+</insert>
+
+<select id="selectAllLoginCount"   resultType="int">
+  select count(ip) from login
+</select> 
+
+<select id="selectIPLoginCount"  resultType="int">
+  select count(distinct(ip)) from login
+</select> 
+
+<select id="selectAllLogin"  resultType="com.besblog.pojo.Login">
+  select * from login
+</select> 
+
+</mapper>

@@ -1,0 +1,176 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.besblog.mapper.CommentMapper">
+
+   <resultMap type="com.besblog.pojo.Comments" id="comments">
+      <id column="cid1" property="cid"/>
+      <result column="aid1" property="aid"/>
+      <result column="uid1" property="uid"/>
+      <result column="objectcid1" property="objectcid"/>
+      <result column="content1" property="content"/>
+      <result column="time1" property="time"/>
+      <result column="cfloor1" property="cfloor"/>
+      <result column="cunit1" property="cunit"/>
+      <result column="type1" property="type"/>
+      <result column="status1" property="status"/>
+      <result column="nickname1" property="nickname"/>
+      <result column="photo1" property="photo"/>
+     <collection property="comments" ofType="com.besblog.pojo.Comments">
+         <id column="cid2" property="cid"/>
+	      <result column="aid2" property="aid"/>
+          <result column="uid2" property="uid"/>
+	      <result column="objectcid2" property="objectcid"/>
+	      <result column="content2" property="content"/>
+	      <result column="time2" property="time"/>
+	      <result column="cfloor2" property="cfloor"/>
+	      <result column="cunit2" property="cunit"/>
+	      <result column="type2" property="type"/>
+	      <result column="status2" property="status"/>
+      	  <result column="nickname2" property="nickname"/>
+      	  <result column="photo2" property="photo"/>
+     </collection>
+      
+   </resultMap>
+   
+   <resultMap type="com.besblog.pojo.CommentsUnderManager" id="commentsUM">
+      <id column="cid" property="cid"/>
+      <result column="aid" property="aid"/>
+      <result column="uid" property="uid"/>
+      <result column="objectcid" property="objectcid"/>
+      <result column="content" property="content"/>
+      <result column="time" property="time"/>
+      <result column="cfloor" property="cfloor"/>
+      <result column="cunit" property="cunit"/>
+      <result column="type" property="type"/>
+      <result column="status" property="status"/>
+      <association property="user" javaType="com.besblog.pojo.User">
+        <id column="uid2" property="uid"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+      </association>
+      <association property="article" javaType="com.besblog.pojo.Article">
+        <id column="aid2" property="aid"/>
+        <result column="title" property="title"/>
+      </association>
+      
+   </resultMap>
+
+<!-- 增加 删除 修改评论状态 -->
+<insert id="insertCommentForArticle" parameterType="com.besblog.pojo.Comment">
+   INSERT INTO comment (cid,uid,aid,content,cfloor,type)
+   			 VALUES (#{cid},#{uid},#{aid},#{content}, ${cfloor},'1')
+</insert>
+
+<insert id="insertCommentForComment" parameterType="com.besblog.pojo.Comment">
+   INSERT INTO comment (cid,uid,aid,objectcid,content,cunit,type)
+   			 VALUES (#{cid},#{uid},#{aid},#{objectcid},#{content}, ${cunit},'2')
+</insert>
+
+<delete id="deleteComment" parameterType="String">
+	delete from comment
+            where cid = #{cid}
+</delete>
+
+<update id="updateCommentStatus" parameterType="Map">
+     update comment
+          set status = #{status}
+            where cid = #{cid}
+</update>
+
+<!-- 查询评论的管理者uid -->
+<select id="getArticleUidByCid" parameterType="String" resultType="String">
+select t_user.uid 
+	from comment,t_article,t_user	
+		where `comment`.cid = #{cid} and `comment`.aid = t_article.aid and t_article.uid = t_user.uid
+</select>
+<!-- 查询评论的评论者uid -->
+<select id="getCommentUidByCid" parameterType="String" resultType="String">
+select uid 
+	from comment 
+		where cid = #{cid}
+</select>
+
+<!-- 插入一条评论的辅助查询 -->
+<select id="getAidFromCid" parameterType="String" resultType="String">
+	select aid from comment where cid = #{cid}
+</select>
+
+<select id="getCountUnit" parameterType="String" resultType="int">
+	select count(cunit) from comment where type="2" and objectcid= #{id}
+</select>
+
+<select id="getCountFloor" parameterType="String" resultType="int">
+	select count(cfloor) from comment where type="1" and aid= #{id}
+</select>
+
+
+<select id="getMaxUnit" parameterType="String" resultType="int">
+	select max(cunit) from comment where type="2" and objectcid= #{id}
+</select>
+
+<select id="getMaxFloor" parameterType="String" resultType="int">
+	select max(cfloor) from comment where type="1" and aid= #{id}
+</select>
+
+
+<!-- 显示在博客下的评论 -->
+<select id="selectCommentsByAid" parameterType="String" resultMap="comments">  
+
+   select 			a.cid as cid1,
+					a.uid as uid1,
+					a.aid as aid1,
+					a.objectcid as objectcid1,
+					a.content as content1,
+          a.time as time1,
+					a.cfloor as cfloor1,
+					a.cunit as cunit1,
+					a.type as type1,
+					a.`status` as status1,
+					u1.nickname as nickname1,
+					u1.photo as photo1,
+						b.cid as cid2,
+						b.uid as uid2,
+						b.aid as aid2,
+						b.objectcid as objectcid2,
+						b.content as content2,
+	          			b.time as time2,
+						b.cfloor as cfloor2,
+						b.cunit as cunit2,
+						b.type as type2,
+						b.`status` as status2,
+					u2.nickname as nickname2,
+					u2.photo as photo2
+    	from comment as a left join comment as b on a.cid = b.objectcid left join t_user as u2 on u2.uid = b.uid,t_user as u1  
+    		where a.aid = #{value} and a.type="1"  and u1.uid=a.uid 
+</select>
+
+
+<!-- 查询博客管理页面下的评论 -->
+<select id="selectPublishedCommentsByUid"  parameterType="String" resultMap="commentsUM">
+  select comment.*,  t_user.uid as uid2, t_user.nickname, t_user.email,  t_article.aid as aid2, t_article.title
+  	from comment , t_article, t_user 
+  		where t_user.uid=t_article.uid and t_article.uid = #{uid} and comment.aid =t_article.aid and comment.status='1' 
+  			order by comment.time desc
+</select> 
+
+<select id="selectTrashCommentsByUid"  parameterType="String" resultMap="commentsUM">
+  select comment.*,  t_user.uid, t_user.nickname, t_user.email,  t_article.aid, t_article.title
+  	from comment , t_article, t_user 
+  		where t_user.uid=t_article.uid and  t_article.uid = #{uid} and comment.aid =t_article.aid and  comment.status='2'
+  			order by comment.time desc
+</select> 
+
+<!-- 获得2种评论的个数 -->
+<select id="getCountPublishedCommentsByUid"  parameterType="String" resultType="int">
+  select count(comment.cid)
+  	from comment , t_article 
+  		where  t_article.uid = #{uid} and comment.aid =t_article.aid and comment.status='1' 
+</select> 
+
+<select id="getCountTrashCommentsByUid"  parameterType="String" resultType="int">
+  select count(comment.cid)
+  	from comment , t_article 
+  		where  t_article.uid = #{uid} and comment.aid =t_article.aid and  comment.status='2'
+</select> 
+
+</mapper>
